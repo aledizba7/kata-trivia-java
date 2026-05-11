@@ -176,7 +176,7 @@ public class Game implements IGame {
 
       } else {
 
-         System.out.println("Answer was corrent!!!!");
+         System.out.println("Answer was correct!!!!");
          int currentPlayerCoins = player.getPurse() + 1;
          player.setPurse(currentPlayerCoins);
          System.out.println(player.getName()
