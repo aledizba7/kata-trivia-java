@@ -75,7 +75,7 @@ public class Game implements IGame {
             System.out.println(players.get(currentPlayer)
                   + "'s new location is "
                   + currentPlayerPosition);
-            System.out.println("The category is " + currentCategory());
+            System.out.println("The category is " + currentCategory(currentPlayerPosition));
             askQuestion();
          } else {
             System.out.println(players.get(currentPlayer) + " is not getting out of the penalty box");
@@ -92,42 +92,41 @@ public class Game implements IGame {
          System.out.println(players.get(currentPlayer)
                + "'s new location is "
                + currentPlayerPosition);
-         System.out.println("The category is " + currentCategory());
+         System.out.println("The category is " + currentCategory(currentPlayerPosition));
          askQuestion();
       }
 
    }
 
    private void askQuestion() {
-      if (currentCategory() == "Pop")
+      if (currentCategory(places[currentPlayer]) == "Pop")
          System.out.println(popQuestions.removeFirst());
-      if (currentCategory() == "Science")
+      if (currentCategory(places[currentPlayer]) == "Science")
          System.out.println(scienceQuestions.removeFirst());
-      if (currentCategory() == "Sports")
+      if (currentCategory(places[currentPlayer]) == "Sports")
          System.out.println(sportsQuestions.removeFirst());
-      if (currentCategory() == "Rock")
+      if (currentCategory(places[currentPlayer]) == "Rock")
          System.out.println(rockQuestions.removeFirst());
    }
 
-   private String currentCategory() {
-      int currentPlayerPosition = places[currentPlayer];
-      if (currentPlayerPosition - 1 == 0)
+   private String currentCategory(int place) {
+      if (place - 1 == 0)
          return "Pop";
-      if (currentPlayerPosition - 1 == 4)
+      if (place - 1 == 4)
          return "Pop";
-      if (currentPlayerPosition - 1 == 8)
+      if (place - 1 == 8)
          return "Pop";
-      if (currentPlayerPosition - 1 == 1)
+      if (place - 1 == 1)
          return "Science";
-      if (currentPlayerPosition - 1 == 5)
+      if (place - 1 == 5)
          return "Science";
-      if (currentPlayerPosition - 1 == 9)
+      if (place - 1 == 9)
          return "Science";
-      if (currentPlayerPosition - 1 == 2)
+      if (place - 1 == 2)
          return "Sports";
-      if (currentPlayerPosition - 1 == 6)
+      if (place - 1 == 6)
          return "Sports";
-      if (currentPlayerPosition - 1 == 10)
+      if (place - 1 == 10)
          return "Sports";
       return "Rock";
    }
