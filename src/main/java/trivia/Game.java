@@ -30,25 +30,40 @@ public class Game implements IGame {
 
    List<Player> playersList = new ArrayList<>();
 
-   LinkedList popQuestions = new LinkedList();
-   LinkedList scienceQuestions = new LinkedList();
-   LinkedList sportsQuestions = new LinkedList();
-   LinkedList rockQuestions = new LinkedList();
+   public static class QuestionDeck {
+      private LinkedList<String> popQuestions = new LinkedList<>();
+      private LinkedList<String> scienceQuestions = new LinkedList<>();
+      private LinkedList<String> sportsQuestions = new LinkedList<>();
+      private LinkedList<String> rockQuestions = new LinkedList<>();
+
+      public QuestionDeck() {
+         for (int i = 0; i < MAX_QUESTIONS; i++) {
+            popQuestions.addLast("Pop Question " + i);
+            scienceQuestions.addLast("Science Question " + i);
+            sportsQuestions.addLast("Sports Question " + i);
+            rockQuestions.addLast(createRockQuestion(i));
+         }
+      }
+
+      private String createRockQuestion(int index) {
+         return "Rock Question " + index;
+      }
+
+      public String nextQuestion(String category) {
+         if (category.equals("Pop")) return popQuestions.removeFirst();
+         if (category.equals("Science")) return scienceQuestions.removeFirst();
+         if (category.equals("Sports")) return sportsQuestions.removeFirst();
+         if (category.equals("Rock")) return rockQuestions.removeFirst();
+         return null;
+      }
+   }
+
+   private QuestionDeck questionDeck = new QuestionDeck();
 
    int currentPlayer = 0;
    boolean isGettingOutOfPenaltyBox;
 
    public Game() {
-      for (int i = 0; i < MAX_QUESTIONS; i++) {
-         popQuestions.addLast("Pop Question " + i);
-         scienceQuestions.addLast(("Science Question " + i));
-         sportsQuestions.addLast(("Sports Question " + i));
-         rockQuestions.addLast(createRockQuestion(i));
-      }
-   }
-
-   public String createRockQuestion(int index) {
-      return "Rock Question " + index;
    }
 
    public boolean hasEnoughPlayers() {
@@ -114,14 +129,7 @@ public class Game implements IGame {
    }
 
    private void askQuestion(String category) {
-      if (category == "Pop")
-         System.out.println(popQuestions.removeFirst());
-      if (category == "Science")
-         System.out.println(scienceQuestions.removeFirst());
-      if (category == "Sports")
-         System.out.println(sportsQuestions.removeFirst());
-      if (category == "Rock")
-         System.out.println(rockQuestions.removeFirst());
+      System.out.println(questionDeck.nextQuestion(category));
    }
 
    private String currentCategory(int place) {
