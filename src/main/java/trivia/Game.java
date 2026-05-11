@@ -91,41 +91,35 @@ public class Game implements IGame {
       System.out.println(player.getName() + " is the current player");
       System.out.println("They have rolled a " + roll);
 
-      boolean currentPlayerInPenaltyBox = player.isInPenaltyBox();
-      if (currentPlayerInPenaltyBox) {
-         if (roll % 2 != 0) {
-            isGettingOutOfPenaltyBox = true;
-
-            System.out.println(player.getName() + " is getting out of the penalty box");
-            int currentPlayerPosition = player.getPlace() + roll;
-            if (currentPlayerPosition > BOARD_SIZE)
-               currentPlayerPosition = currentPlayerPosition - BOARD_SIZE;
-            player.setPlace(currentPlayerPosition);
-
-            System.out.println(player.getName()
-                  + "'s new location is "
-                  + currentPlayerPosition);
-            System.out.println("The category is " + currentCategory(currentPlayerPosition));
-            askQuestion(currentCategory(currentPlayerPosition));
-         } else {
-            System.out.println(player.getName() + " is not getting out of the penalty box");
-            isGettingOutOfPenaltyBox = false;
-         }
-
+      if (player.isInPenaltyBox()) {
+         handlePenaltyBoxTurn(player, roll);
       } else {
-
-         int currentPlayerPosition = player.getPlace() + roll;
-         if (currentPlayerPosition > BOARD_SIZE)
-            currentPlayerPosition = currentPlayerPosition - BOARD_SIZE;
-         player.setPlace(currentPlayerPosition);
-
-         System.out.println(player.getName()
-               + "'s new location is "
-               + currentPlayerPosition);
-         System.out.println("The category is " + currentCategory(currentPlayerPosition));
-         askQuestion(currentCategory(currentPlayerPosition));
+         handleNormalTurn(player, roll);
       }
+   }
 
+   private void handlePenaltyBoxTurn(Player player, int roll) {
+      if (roll % 2 != 0) {
+         isGettingOutOfPenaltyBox = true;
+         System.out.println(player.getName() + " is getting out of the penalty box");
+         handleNormalTurn(player, roll);
+      } else {
+         System.out.println(player.getName() + " is not getting out of the penalty box");
+         isGettingOutOfPenaltyBox = false;
+      }
+   }
+
+   private void handleNormalTurn(Player player, int roll) {
+      int currentPlayerPosition = player.getPlace() + roll;
+      if (currentPlayerPosition > BOARD_SIZE)
+         currentPlayerPosition = currentPlayerPosition - BOARD_SIZE;
+      player.setPlace(currentPlayerPosition);
+
+      System.out.println(player.getName()
+            + "'s new location is "
+            + currentPlayerPosition);
+      System.out.println("The category is " + currentCategory(currentPlayerPosition));
+      askQuestion(currentCategory(currentPlayerPosition));
    }
 
    private void askQuestion(String category) {
