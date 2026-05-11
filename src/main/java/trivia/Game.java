@@ -58,7 +58,8 @@ public class Game implements IGame {
       System.out.println(players.get(currentPlayer) + " is the current player");
       System.out.println("They have rolled a " + roll);
 
-      if (inPenaltyBox[currentPlayer]) {
+      boolean currentPlayerInPenaltyBox = inPenaltyBox[currentPlayer];
+      if (currentPlayerInPenaltyBox) {
          if (roll % 2 != 0) {
             isGettingOutOfPenaltyBox = true;
 
@@ -129,7 +130,8 @@ public class Game implements IGame {
    }
 
    public boolean handleCorrectAnswer() {
-      if (inPenaltyBox[currentPlayer]) {
+      boolean currentPlayerInPenaltyBox = inPenaltyBox[currentPlayer];
+      if (currentPlayerInPenaltyBox) {
          if (isGettingOutOfPenaltyBox) {
             System.out.println("Answer was correct!!!!");
             int currentPlayerCoins = purses[currentPlayer] + 1;
@@ -174,7 +176,8 @@ public class Game implements IGame {
    public boolean wrongAnswer() {
       System.out.println("Question was incorrectly answered");
       System.out.println(players.get(currentPlayer) + " was sent to the penalty box");
-      inPenaltyBox[currentPlayer] = true;
+      boolean currentPlayerInPenaltyBox = true;
+      inPenaltyBox[currentPlayer] = currentPlayerInPenaltyBox;
 
       currentPlayer++;
       if (currentPlayer == players.size())
