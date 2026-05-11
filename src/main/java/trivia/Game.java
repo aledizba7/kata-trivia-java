@@ -132,10 +132,11 @@ public class Game implements IGame {
       if (inPenaltyBox[currentPlayer]) {
          if (isGettingOutOfPenaltyBox) {
             System.out.println("Answer was correct!!!!");
-            purses[currentPlayer]++;
+            int currentPlayerCoins = purses[currentPlayer] + 1;
+            purses[currentPlayer] = currentPlayerCoins;
             System.out.println(players.get(currentPlayer)
                   + " now has "
-                  + purses[currentPlayer]
+                  + currentPlayerCoins
                   + " Gold Coins.");
 
             boolean winner = didPlayerWin();
@@ -154,10 +155,11 @@ public class Game implements IGame {
       } else {
 
          System.out.println("Answer was corrent!!!!");
-         purses[currentPlayer]++;
+         int currentPlayerCoins = purses[currentPlayer] + 1;
+         purses[currentPlayer] = currentPlayerCoins;
          System.out.println(players.get(currentPlayer)
                + " now has "
-               + purses[currentPlayer]
+               + currentPlayerCoins
                + " Gold Coins.");
 
          boolean winner = didPlayerWin();
@@ -181,6 +183,7 @@ public class Game implements IGame {
    }
 
    private boolean didPlayerWin() {
-      return !(purses[currentPlayer] == 6);
+      int currentPlayerCoins = purses[currentPlayer];
+      return !(currentPlayerCoins == 6);
    }
 }
