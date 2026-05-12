@@ -17,7 +17,8 @@ public class GameOld implements IGame {
    LinkedList rockQuestions = new LinkedList();
 
    int currentPlayer = 0;
-   boolean isGettingOutOfPenaltyBox;
+   int currentPlayerPosition;
+   int currentPlayerCoins;
 
    public GameOld() {
       for (int i = 0; i < 50; i++) {
@@ -57,8 +58,7 @@ public class GameOld implements IGame {
 
       if (inPenaltyBox[currentPlayer]) {
          if (roll % 2 != 0) {
-            isGettingOutOfPenaltyBox = true;
-
+            inPenaltyBox[currentPlayer] = false;
             System.out.println(players.get(currentPlayer) + " is getting out of the penalty box");
             places[currentPlayer] = places[currentPlayer] + roll;
             if (places[currentPlayer] > 12) places[currentPlayer] = places[currentPlayer] - 12;
@@ -70,7 +70,6 @@ public class GameOld implements IGame {
             askQuestion();
          } else {
             System.out.println(players.get(currentPlayer) + " is not getting out of the penalty box");
-            isGettingOutOfPenaltyBox = false;
          }
 
       } else {
@@ -114,28 +113,12 @@ public class GameOld implements IGame {
 
    public boolean handleCorrectAnswer() {
       if (inPenaltyBox[currentPlayer]) {
-         if (isGettingOutOfPenaltyBox) {
-            System.out.println("Answer was correct!!!!");
-            purses[currentPlayer]++;
-            System.out.println(players.get(currentPlayer)
-                               + " now has "
-                               + purses[currentPlayer]
-                               + " Gold Coins.");
-
-            boolean winner = didPlayerWin();
-            currentPlayer++;
-            if (currentPlayer == players.size()) currentPlayer = 0;
-
-            return winner;
-         } else {
-            currentPlayer++;
-            if (currentPlayer == players.size()) currentPlayer = 0;
-            return true;
-         }
-
+         currentPlayer++;
+         if (currentPlayer == players.size()) currentPlayer = 0;
+         return true;
       } else {
 
-         System.out.println("Answer was corrent!!!!");
+         System.out.println("Answer was correct!!!!");
          purses[currentPlayer]++;
          System.out.println(players.get(currentPlayer)
                             + " now has "
