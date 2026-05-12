@@ -61,7 +61,6 @@ public class Game implements IGame {
    private QuestionDeck questionDeck = new QuestionDeck();
 
    int currentPlayer = 0;
-   boolean isGettingOutOfPenaltyBox;
 
    public Game() {
    }
@@ -75,6 +74,11 @@ public class Game implements IGame {
    }
 
    public boolean addPlayer(String playerName) {
+      for (Player player : playersList) {
+         if (player.getName().equals(playerName)) {
+            return false;
+         }
+      }
       playersList.add(new Player(playerName));
 
       System.out.println(playerName + " was added");
@@ -100,12 +104,11 @@ public class Game implements IGame {
 
    private void handlePenaltyBoxTurn(Player player, int roll) {
       if (roll % 2 != 0) {
-         isGettingOutOfPenaltyBox = true;
+         player.setInPenaltyBox(false);
          System.out.println(player.getName() + " is getting out of the penalty box");
          handleNormalTurn(player, roll);
       } else {
          System.out.println(player.getName() + " is not getting out of the penalty box");
-         isGettingOutOfPenaltyBox = false;
       }
    }
 
@@ -150,30 +153,11 @@ public class Game implements IGame {
 
    public boolean handleCorrectAnswer() {
       Player player = playersList.get(currentPlayer);
-      boolean currentPlayerInPenaltyBox = player.isInPenaltyBox();
-      if (currentPlayerInPenaltyBox) {
-         if (isGettingOutOfPenaltyBox) {
-            System.out.println("Answer was correct!!!!");
-            int currentPlayerCoins = player.getPurse() + 1;
-            player.setPurse(currentPlayerCoins);
-            System.out.println(player.getName()
-                  + " now has "
-                  + currentPlayerCoins
-                  + " Gold Coins.");
-
-            boolean winner = !playerHasWon();
-            currentPlayer++;
-            if (currentPlayer == playersList.size())
-               currentPlayer = 0;
-
-            return winner;
-         } else {
-            currentPlayer++;
-            if (currentPlayer == playersList.size())
-               currentPlayer = 0;
-            return true;
-         }
-
+      if (player.isInPenaltyBox()) {
+         currentPlayer++;
+         if (currentPlayer == playersList.size())
+            currentPlayer = 0;
+         return true;
       } else {
 
          System.out.println("Answer was correct!!!!");
